@@ -205,9 +205,17 @@ body {
 .category-select:focus-visible,
 .add-btn:focus-visible,
 .filter-btn:focus-visible,
-.reset-all-btn:focus-visible {
+.reset-all-btn:focus-visible,
+.todo-title:focus-visible,
+.category-pill:focus-visible,
+.delete-btn:focus-visible,
+.toast-undo:focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
+}
+
+.todo-title:focus-visible {
+  border-radius: 4px;
 }
 
 .category-select {

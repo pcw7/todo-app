@@ -183,6 +183,7 @@ function renderTodoItem(todo) {
   checkbox.type = "checkbox";
   checkbox.className = "todo-checkbox";
   checkbox.checked = todo.done;
+  checkbox.setAttribute("aria-label", `"${todo.title}" 완료로 표시`);
   checkbox.addEventListener("change", () => {
     toggleDone(todo.id);
     render();
@@ -197,12 +198,22 @@ function renderTodoItem(todo) {
   title.className = "todo-title";
   title.textContent = todo.title;
   title.title = "클릭하면 수정할 수 있습니다";
+  title.tabIndex = 0;
+  title.setAttribute("role", "button");
+  title.setAttribute("aria-label", `"${todo.title}" 제목 수정`);
   title.addEventListener("click", () => startEditing(li, todo));
+  title.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      startEditing(li, todo);
+    }
+  });
 
   const categorySelectInline = document.createElement("select");
   categorySelectInline.className = "category-pill cat-" + todo.category;
   categorySelectInline.style.border = "none";
   categorySelectInline.style.appearance = "none";
+  categorySelectInline.setAttribute("aria-label", `"${todo.title}" 카테고리`);
   Object.entries(CATEGORY_LABELS).forEach(([value, label]) => {
     const opt = document.createElement("option");
     opt.value = value;
@@ -219,7 +230,7 @@ function renderTodoItem(todo) {
   deleteBtn.type = "button";
   deleteBtn.className = "delete-btn";
   deleteBtn.textContent = "✕";
-  deleteBtn.setAttribute("aria-label", "삭제");
+  deleteBtn.setAttribute("aria-label", `"${todo.title}" 삭제`);
   deleteBtn.addEventListener("click", () => {
     const index = loadTodos().findIndex((t) => t.id === todo.id);
     deleteTodo(todo.id);
@@ -296,9 +307,11 @@ filterButtons.addEventListener("click", (e) => {
   const btn = e.target.closest(".filter-btn");
   if (!btn) return;
   currentFilter = btn.dataset.filter;
-  [...filterButtons.children].forEach((b) =>
-    b.classList.toggle("is-active", b === btn)
-  );
+  [...filterButtons.children].forEach((b) => {
+    const isActive = b === btn;
+    b.classList.toggle("is-active", isActive);
+    b.setAttribute("aria-pressed", String(isActive));
+  });
   render();
 });
 

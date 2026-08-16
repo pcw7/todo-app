@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>할 일 관리</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <script>
     (function () {
       var saved = localStorage.getItem("todo-app:theme");
@@ -36,6 +37,7 @@
           class="todo-input"
           placeholder="할 일을 입력하세요"
           autocomplete="off"
+          autofocus
         />
         <select id="category-select" class="category-select">
           <option value="personal">개인</option>
@@ -46,8 +48,8 @@
       </form>
     </header>
 
-    <section class="progress" id="progress">
-      <div class="story-bar" id="story-bar"></div>
+    <section class="progress" id="progress" aria-live="polite" aria-atomic="true">
+      <div class="story-bar" id="story-bar" aria-hidden="true"></div>
       <div class="progress-numbers">
         <span id="progress-count">0 / 0</span>
         <span id="progress-percent">0%</span>
@@ -57,10 +59,10 @@
 
     <nav class="filters" id="filters">
       <div class="filter-buttons">
-        <button class="filter-btn is-active" data-filter="all">전체</button>
-        <button class="filter-btn" data-filter="work">업무</button>
-        <button class="filter-btn" data-filter="personal">개인</button>
-        <button class="filter-btn" data-filter="study">공부</button>
+        <button class="filter-btn is-active" data-filter="all" aria-pressed="true">전체</button>
+        <button class="filter-btn" data-filter="work" aria-pressed="false">업무</button>
+        <button class="filter-btn" data-filter="personal" aria-pressed="false">개인</button>
+        <button class="filter-btn" data-filter="study" aria-pressed="false">공부</button>
       </div>
       <button type="button" class="reset-all-btn" id="reset-all-btn">전체 초기화</button>
     </nav>
