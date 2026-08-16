@@ -137,10 +137,12 @@ function renderProgress(todos) {
   progressCount.textContent = `${doneCount} / ${total}`;
   progressPercent.textContent = `${percent}%`;
 
-  storyBar.classList.toggle("is-empty", total === 0);
-  storyBar.innerHTML = todos
-    .map((_, i) => `<div class="story-segment${i < doneCount ? " is-done" : ""}"></div>`)
-    .join("");
+  storyBar.innerHTML =
+    total === 0
+      ? '<div class="story-segment"></div>'
+      : todos
+          .map((_, i) => `<div class="story-segment${i < doneCount ? " is-done" : ""}"></div>`)
+          .join("");
 
   const remainingByCategory = { work: 0, personal: 0, study: 0 };
   todos.forEach((t) => {

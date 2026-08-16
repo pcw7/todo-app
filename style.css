@@ -266,10 +266,6 @@ body {
   margin-bottom: 12px;
 }
 
-.story-bar.is-empty {
-  display: none;
-}
-
 .story-segment {
   flex: 1;
   height: 4px;
