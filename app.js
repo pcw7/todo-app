@@ -147,12 +147,20 @@ function renderProgress(todos) {
     if (!t.done) remainingByCategory[t.category]++;
   });
 
-  progressBreakdown.innerHTML = Object.entries(remainingByCategory)
-    .map(
-      ([cat, count]) =>
-        `<span>${CATEGORY_LABELS[cat]} 남은 항목 ${count}개</span>`
-    )
-    .join("");
+  progressBreakdown.innerHTML = `
+    <div class="breakdown-row breakdown-header">
+      <span class="breakdown-label"></span>
+      <span class="breakdown-cat cat-work">업무</span>
+      <span class="breakdown-cat cat-personal">개인</span>
+      <span class="breakdown-cat cat-study">공부</span>
+    </div>
+    <div class="breakdown-row breakdown-values">
+      <span class="breakdown-label">남은 항목</span>
+      <span class="breakdown-value">${remainingByCategory.work}</span>
+      <span class="breakdown-value">${remainingByCategory.personal}</span>
+      <span class="breakdown-value">${remainingByCategory.study}</span>
+    </div>
+  `;
 }
 
 function renderList(todos) {
