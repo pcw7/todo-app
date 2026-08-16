@@ -49,6 +49,13 @@ function deleteTodo(id) {
   saveTodos(todos.filter((t) => t.id !== id));
 }
 
+function restoreTodo(todo, index) {
+  const todos = loadTodos();
+  const at = Math.min(index, todos.length);
+  todos.splice(at, 0, todo);
+  saveTodos(todos);
+}
+
 function toggleDone(id) {
   const todos = loadTodos();
   const next = todos.map((t) =>
@@ -92,6 +99,27 @@ const storyBar = document.getElementById("story-bar");
 const progressCount = document.getElementById("progress-count");
 const progressPercent = document.getElementById("progress-percent");
 const progressBreakdown = document.getElementById("progress-breakdown");
+const toast = document.getElementById("toast");
+const toastMessage = document.getElementById("toast-message");
+const toastUndoBtn = document.getElementById("toast-undo");
+
+// ---- Undo toast ----
+
+let pendingUndo = null;
+let undoTimer = null;
+
+function showUndoToast(todo, index) {
+  pendingUndo = { todo, index };
+  toastMessage.textContent = `"${todo.title}" 삭제됨`;
+  toast.classList.add("is-visible");
+  clearTimeout(undoTimer);
+  undoTimer = setTimeout(hideUndoToast, 5000);
+}
+
+function hideUndoToast() {
+  toast.classList.remove("is-visible");
+  pendingUndo = null;
+}
 
 // ---- Rendering ----
 
@@ -193,7 +221,9 @@ function renderTodoItem(todo) {
   deleteBtn.textContent = "✕";
   deleteBtn.setAttribute("aria-label", "삭제");
   deleteBtn.addEventListener("click", () => {
+    const index = loadTodos().findIndex((t) => t.id === todo.id);
     deleteTodo(todo.id);
+    showUndoToast(todo, index);
     render();
   });
 
@@ -249,6 +279,16 @@ resetAllBtn.addEventListener("click", () => {
   const confirmed = window.confirm("모든 할 일을 삭제할까요? 되돌릴 수 없습니다.");
   if (!confirmed) return;
   clearAllTodos();
+  clearTimeout(undoTimer);
+  hideUndoToast();
+  render();
+});
+
+toastUndoBtn.addEventListener("click", () => {
+  if (!pendingUndo) return;
+  restoreTodo(pendingUndo.todo, pendingUndo.index);
+  clearTimeout(undoTimer);
+  hideUndoToast();
   render();
 });
 
