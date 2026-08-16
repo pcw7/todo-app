@@ -1,4 +1,5 @@
 const STORAGE_KEY = "todo-app:v1";
+const THEME_KEY = "todo-app:theme";
 
 const CATEGORY_LABELS = {
   work: "업무",
@@ -60,6 +61,21 @@ function clearAllTodos() {
   saveTodos([]);
 }
 
+// ---- Theme ----
+
+function getEffectiveTheme() {
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored === "light" || stored === "dark") return stored;
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
+function renderThemeToggle() {
+  const isDark = getEffectiveTheme() === "dark";
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+}
+
 // ---- DOM references ----
 
 const addForm = document.getElementById("add-form");
@@ -71,6 +87,7 @@ const emptyState = document.getElementById("empty-state");
 const filters = document.getElementById("filters");
 const filterButtons = filters.querySelector(".filter-buttons");
 const resetAllBtn = document.getElementById("reset-all-btn");
+const themeToggle = document.getElementById("theme-toggle");
 const storyBar = document.getElementById("story-bar");
 const progressCount = document.getElementById("progress-count");
 const progressPercent = document.getElementById("progress-percent");
@@ -245,4 +262,18 @@ filterButtons.addEventListener("click", (e) => {
   render();
 });
 
+themeToggle.addEventListener("click", () => {
+  const next = getEffectiveTheme() === "dark" ? "light" : "dark";
+  localStorage.setItem(THEME_KEY, next);
+  document.documentElement.setAttribute("data-theme", next);
+  renderThemeToggle();
+});
+
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    if (!localStorage.getItem(THEME_KEY)) renderThemeToggle();
+  });
+}
+
 render();
+renderThemeToggle();
