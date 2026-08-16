@@ -65,13 +65,15 @@ function clearAllTodos() {
 const addForm = document.getElementById("add-form");
 const todoInput = document.getElementById("todo-input");
 const categorySelect = document.getElementById("category-select");
+const addBtn = document.getElementById("add-btn");
 const todoList = document.getElementById("todo-list");
 const emptyState = document.getElementById("empty-state");
 const filters = document.getElementById("filters");
+const filterButtons = filters.querySelector(".filter-buttons");
 const resetAllBtn = document.getElementById("reset-all-btn");
+const storyBar = document.getElementById("story-bar");
 const progressCount = document.getElementById("progress-count");
 const progressPercent = document.getElementById("progress-percent");
-const progressBarFill = document.getElementById("progress-bar-fill");
 const progressBreakdown = document.getElementById("progress-breakdown");
 
 // ---- Rendering ----
@@ -89,7 +91,11 @@ function renderProgress(todos) {
 
   progressCount.textContent = `${doneCount} / ${total}`;
   progressPercent.textContent = `${percent}%`;
-  progressBarFill.style.width = `${percent}%`;
+
+  storyBar.classList.toggle("is-empty", total === 0);
+  storyBar.innerHTML = todos
+    .map((t) => `<div class="story-segment${t.done ? " is-done" : ""}"></div>`)
+    .join("");
 
   const remainingByCategory = { work: 0, personal: 0, study: 0 };
   todos.forEach((t) => {
@@ -125,6 +131,9 @@ function renderTodoItem(todo) {
   li.className = "todo-item" + (todo.done ? " is-done" : "");
   li.dataset.id = todo.id;
 
+  const checkWrap = document.createElement("label");
+  checkWrap.className = "check-wrap";
+
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.className = "todo-checkbox";
@@ -133,6 +142,11 @@ function renderTodoItem(todo) {
     toggleDone(todo.id);
     render();
   });
+
+  const checkRing = document.createElement("span");
+  checkRing.className = "check-ring";
+
+  checkWrap.append(checkbox, checkRing);
 
   const title = document.createElement("span");
   title.className = "todo-title";
@@ -166,7 +180,7 @@ function renderTodoItem(todo) {
     render();
   });
 
-  li.append(checkbox, title, categorySelectInline, deleteBtn);
+  li.append(checkWrap, title, categorySelectInline, deleteBtn);
   return li;
 }
 
@@ -198,12 +212,17 @@ function startEditing(li, todo) {
 
 // ---- Events ----
 
+todoInput.addEventListener("input", () => {
+  addBtn.disabled = todoInput.value.trim().length === 0;
+});
+
 addForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const title = todoInput.value.trim();
   if (!title) return;
   addTodo(title, categorySelect.value);
   todoInput.value = "";
+  addBtn.disabled = true;
   todoInput.focus();
   render();
 });
@@ -216,11 +235,11 @@ resetAllBtn.addEventListener("click", () => {
   render();
 });
 
-filters.addEventListener("click", (e) => {
+filterButtons.addEventListener("click", (e) => {
   const btn = e.target.closest(".filter-btn");
   if (!btn) return;
   currentFilter = btn.dataset.filter;
-  [...filters.children].forEach((b) =>
+  [...filterButtons.children].forEach((b) =>
     b.classList.toggle("is-active", b === btn)
   );
   render();

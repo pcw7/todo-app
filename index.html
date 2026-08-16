@@ -9,7 +9,10 @@
 <body>
   <div class="app">
     <header class="app-header">
-      <h1>오늘 할 일</h1>
+      <div class="brand">
+        <span class="ig-mark" aria-hidden="true"></span>
+        <h1 class="wordmark">오늘 할 일</h1>
+      </div>
 
       <form class="add-form" id="add-form">
         <input
@@ -24,17 +27,15 @@
           <option value="work">업무</option>
           <option value="study">공부</option>
         </select>
-        <button type="submit" class="add-btn">추가</button>
+        <button type="submit" class="add-btn" id="add-btn" disabled>추가</button>
       </form>
     </header>
 
     <section class="progress" id="progress">
+      <div class="story-bar" id="story-bar"></div>
       <div class="progress-numbers">
         <span id="progress-count">0 / 0</span>
         <span id="progress-percent">0%</span>
-      </div>
-      <div class="progress-bar-track">
-        <div class="progress-bar-fill" id="progress-bar-fill"></div>
       </div>
       <div class="progress-breakdown" id="progress-breakdown"></div>
     </section>
@@ -53,7 +54,10 @@
       <ul class="todo-list" id="todo-list">
         <!-- 할 일 항목이 여기에 렌더링됩니다 -->
       </ul>
-      <p class="empty-state" id="empty-state">아직 할 일이 없습니다. 위에서 추가해보세요.</p>
+      <div class="empty-state" id="empty-state">
+        <span class="empty-icon" aria-hidden="true"></span>
+        <p>아직 할 일이 없습니다. 위에서 추가해보세요.</p>
+      </div>
     </main>
   </div>
 
