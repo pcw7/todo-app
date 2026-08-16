@@ -94,7 +94,7 @@ function renderProgress(todos) {
 
   storyBar.classList.toggle("is-empty", total === 0);
   storyBar.innerHTML = todos
-    .map((t) => `<div class="story-segment${t.done ? " is-done" : ""}"></div>`)
+    .map((_, i) => `<div class="story-segment${i < doneCount ? " is-done" : ""}"></div>`)
     .join("");
 
   const remainingByCategory = { work: 0, personal: 0, study: 0 };
