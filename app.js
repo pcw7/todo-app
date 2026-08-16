@@ -56,6 +56,10 @@ function toggleDone(id) {
   saveTodos(next);
 }
 
+function clearAllTodos() {
+  saveTodos([]);
+}
+
 // ---- DOM references ----
 
 const addForm = document.getElementById("add-form");
@@ -64,6 +68,7 @@ const categorySelect = document.getElementById("category-select");
 const todoList = document.getElementById("todo-list");
 const emptyState = document.getElementById("empty-state");
 const filters = document.getElementById("filters");
+const resetAllBtn = document.getElementById("reset-all-btn");
 const progressCount = document.getElementById("progress-count");
 const progressPercent = document.getElementById("progress-percent");
 const progressBarFill = document.getElementById("progress-bar-fill");
@@ -200,6 +205,14 @@ addForm.addEventListener("submit", (e) => {
   addTodo(title, categorySelect.value);
   todoInput.value = "";
   todoInput.focus();
+  render();
+});
+
+resetAllBtn.addEventListener("click", () => {
+  if (loadTodos().length === 0) return;
+  const confirmed = window.confirm("모든 할 일을 삭제할까요? 되돌릴 수 없습니다.");
+  if (!confirmed) return;
+  clearAllTodos();
   render();
 });
 

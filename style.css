@@ -147,9 +147,33 @@ body {
 
 .filters {
   display: flex;
-  gap: 6px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   margin-top: 20px;
   flex-wrap: wrap;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.reset-all-btn {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 12.5px;
+  cursor: pointer;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.reset-all-btn:hover {
+  color: var(--danger);
+  background: var(--surface-sunken);
 }
 
 .filter-btn {
