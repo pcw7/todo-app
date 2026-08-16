@@ -147,27 +147,19 @@ body {
   height: 30px;
   border-radius: 10px;
   background: var(--ig-gradient-brand);
-  position: relative;
   flex-shrink: 0;
-}
-
-.ig-mark::before {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ig-mark::after {
   content: "";
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
+  width: 13px;
+  height: 7px;
+  border-left: 2.5px solid rgba(255, 255, 255, 0.95);
+  border-bottom: 2.5px solid rgba(255, 255, 255, 0.95);
+  transform: rotate(-45deg) translateY(-1px);
 }
 
 .wordmark {
@@ -526,26 +518,18 @@ body {
   height: 56px;
   border-radius: 18px;
   border: 2px solid var(--line);
-  position: relative;
-}
-
-.empty-icon::before {
-  content: "";
-  position: absolute;
-  inset: 15px;
-  border: 2px solid var(--line);
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .empty-icon::after {
   content: "";
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--line);
+  width: 22px;
+  height: 11px;
+  border-left: 2.5px solid var(--line-strong);
+  border-bottom: 2.5px solid var(--line-strong);
+  transform: rotate(-45deg) translateY(-2px);
 }
 
 @media (max-width: 400px) {
