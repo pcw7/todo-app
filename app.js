@@ -148,17 +148,20 @@ function renderProgress(todos) {
   });
 
   progressBreakdown.innerHTML = `
-    <div class="breakdown-row breakdown-header">
-      <span class="breakdown-label"></span>
-      <span class="breakdown-cat cat-work">업무</span>
-      <span class="breakdown-cat cat-personal">개인</span>
-      <span class="breakdown-cat cat-study">공부</span>
-    </div>
-    <div class="breakdown-row breakdown-values">
-      <span class="breakdown-label">남은 항목</span>
-      <span class="breakdown-value">${remainingByCategory.work}</span>
-      <span class="breakdown-value">${remainingByCategory.personal}</span>
-      <span class="breakdown-value">${remainingByCategory.study}</span>
+    <div class="breakdown-title">남은 항목</div>
+    <div class="breakdown-grid">
+      <div class="breakdown-col">
+        <span class="breakdown-cat cat-work">업무</span>
+        <span class="breakdown-value">${remainingByCategory.work}</span>
+      </div>
+      <div class="breakdown-col">
+        <span class="breakdown-cat cat-personal">개인</span>
+        <span class="breakdown-value">${remainingByCategory.personal}</span>
+      </div>
+      <div class="breakdown-col">
+        <span class="breakdown-cat cat-study">공부</span>
+        <span class="breakdown-value">${remainingByCategory.study}</span>
+      </div>
     </div>
   `;
 }
